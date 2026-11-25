@@ -39,6 +39,46 @@ button,input,textarea,select{font-family:inherit}
 button{cursor:pointer}
 .container{width:90%;max-width:1180px;margin:auto}
 
+/* INTRO */
+.intro-screen{
+    position:fixed;
+    inset:0;
+    z-index:3000;
+    display:grid;
+    place-items:center;
+    background:var(--cream);
+    text-align:center;
+    transition:opacity .55s ease,visibility .55s ease;
+}
+.intro-screen.is-hidden{opacity:0;visibility:hidden}
+.intro-content{
+    padding:30px;
+    animation:introText 2.45s cubic-bezier(.2,.7,.25,1) both;
+}
+@keyframes introText{
+    0%{opacity:0;transform:scale(.72);filter:blur(14px)}
+    20%{opacity:1;transform:scale(1);filter:blur(0)}
+    68%{opacity:1;transform:scale(1);filter:blur(0)}
+    100%{opacity:0;transform:scale(1.1);filter:blur(10px)}
+}
+.intro-welcome{
+    color:var(--gold);
+    font-size:9px;
+    letter-spacing:4px;
+    margin-bottom:18px;
+}
+.intro-logo{
+    font-family:var(--serif);
+    font-size:clamp(48px,10vw,76px);
+    letter-spacing:8px;
+    line-height:1;
+}
+.intro-tagline{
+    margin-top:12px;
+    font-size:8px;
+    letter-spacing:4px;
+}
+
 /* TOP BAR */
 .topbar{
     background:var(--dark);
@@ -168,32 +208,21 @@ nav a:hover:after{width:100%}
     position:relative;
     min-height:650px;
     overflow:hidden;
-    background:
-        radial-gradient(circle at 60% 40%,rgba(255,255,255,.8),transparent 15%),
-        radial-gradient(circle at 50% 60%,rgba(212,177,113,.4),transparent 25%),
-        linear-gradient(135deg,#d7c1a0,#846b50 60%,#3c3025);
-}
-.hero-image:before{
-    content:"";
-    position:absolute;
-    width:300px;
-    height:400px;
-    border:27px solid #d8b66e;
-    border-radius:50%;
-    transform:rotate(35deg);
-    top:18%;
-    left:40%;
-    box-shadow:0 0 40px rgba(255,220,150,.5);
+    background:#4d3b2e;
 }
 .hero-image:after{
     content:"";
     position:absolute;
-    width:120px;
-    height:120px;
-    border:8px solid rgba(255,235,190,.8);
-    border-radius:50%;
-    top:42%;
-    left:55%;
+    inset:0;
+    background:linear-gradient(transparent 48%,rgba(20,15,11,.62));
+}
+.hero-photo{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center;
 }
 .hero-label{
     position:absolute;
@@ -236,6 +265,12 @@ nav a:hover:after{width:100%}
 .collection-card{background:white;overflow:hidden}
 .collection-img{height:370px;position:relative;transition:.5s}
 .collection-card:hover .collection-img{transform:scale(1.03)}
+.collection-photo{
+    width:100%;
+    height:100%;
+    display:block;
+    object-fit:cover;
+}
 .collection-img span{
     position:absolute;
     top:15px;
@@ -243,28 +278,9 @@ nav a:hover:after{width:100%}
     color:white;
     font-family:var(--serif);
     font-size:18px;
+    text-shadow:0 1px 5px rgba(0,0,0,.65);
 }
-.ring-img{
-    background:
-    radial-gradient(ellipse at center,transparent 0 15%,#dfbc75 16% 20%,transparent 21%),
-    linear-gradient(140deg,#75604a,#d3b486,#4b392c);
-}
-.necklace-img{
-    background:
-    radial-gradient(ellipse at center,transparent 0 20%,#dcb66d 21% 24%,transparent 25%),
-    linear-gradient(140deg,#c2a57d,#66513e);
-}
-.earring-img{
-    background:
-    radial-gradient(circle at 40% 45%,#f0d28c 0 7%,transparent 8%),
-    radial-gradient(circle at 65% 60%,#d8ae5e 0 8%,transparent 9%),
-    linear-gradient(140deg,#61503f,#cdb38c);
-}
-.bracelet-img{
-    background:
-    radial-gradient(ellipse at center,transparent 0 18%,#dcb46d 19% 24%,transparent 25%),
-    linear-gradient(140deg,#b9a07b,#4c3a2d);
-}
+.ring-img,.necklace-img,.earring-img,.bracelet-img{background:#d8c8b3}
 .collection-info{padding:20px}
 .collection-info h3{font-family:var(--serif);font-size:28px;font-weight:500}
 .collection-info p{font-size:10px;color:#888;margin-bottom:10px}
@@ -285,12 +301,55 @@ nav a:hover:after{width:100%}
     align-items:flex-end;
     justify-content:center;
     padding-bottom:30px;
+    position:relative;
+    overflow:hidden;
     color:white;
     letter-spacing:4px;
     font-size:10px;
-    background:
-    radial-gradient(circle at center 35%,rgba(239,204,139,.8),transparent 15%),
-    linear-gradient(135deg,#806b53,#382c22);
+    background:linear-gradient(transparent 55%,rgba(20,15,11,.7));
+}
+.about-inner img{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    z-index:0;
+}
+.about-inner:after{
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:1;
+    background:linear-gradient(transparent 55%,rgba(20,15,11,.7));
+}
+.about-inner span{position:relative;z-index:2}
+.gold-rates{background:#f8f5ef}
+.rate-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.rate-card{
+    padding:30px 24px;
+    text-align:center;
+    background:white;
+    border:1px solid var(--border);
+}
+.rate-card h3{
+    font-family:var(--serif);
+    font-size:32px;
+    font-weight:500;
+}
+.rate-purity{color:var(--muted);font-size:10px;letter-spacing:1px}
+.rate-value{margin:17px 0 5px;color:var(--gold);font-size:13px;font-weight:600}
+.rate-unit{color:var(--muted);font-size:9px}
+.rate-note{
+    max-width:760px;
+    margin:25px auto 0;
+    padding:18px 22px;
+    background:#ebe3d6;
+    color:#62594e;
+    text-align:center;
+    font-size:11px;
+}
+.rate-note strong{color:var(--dark)}
 }
 .about-text h2{
     font-family:var(--serif);
@@ -331,48 +390,27 @@ nav a:hover:after{width:100%}
 .filter.active,.filter:hover{background:var(--dark);color:white}
 .product-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 .product{background:white}
-.product-image{height:390px;position:relative;overflow:hidden}
+.product-image{height:390px;position:relative;overflow:hidden;background:#d8c8b3}
 .product-image:after{
     content:"";
     position:absolute;
     inset:0;
-    background:rgba(255,255,255,.04);
+    z-index:1;
+    pointer-events:none;
+    background:linear-gradient(transparent 70%,rgba(20,15,11,.12));
 }
-.p1{
-    background:
-    radial-gradient(ellipse at center,transparent 0 13%,#e3c27e 14% 18%,transparent 19%),
-    linear-gradient(140deg,#ddd0ba,#75604b);
+.product-photo{
+    width:100%;
+    height:100%;
+    display:block;
+    object-fit:cover;
+    transition:transform .5s;
 }
-.p2{
-    background:
-    radial-gradient(ellipse at center,transparent 0 22%,#d8b269 23% 26%,transparent 27%),
-    linear-gradient(135deg,#c0a688,#534333);
-}
-.p3{
-    background:
-    radial-gradient(circle at 40% 45%,#eee1bd 0 9%,transparent 10%),
-    radial-gradient(circle at 60% 58%,#f0dca9 0 8%,transparent 9%),
-    linear-gradient(135deg,#655342,#d1b58b);
-}
-.p4{
-    background:
-    radial-gradient(ellipse at center,transparent 0 20%,#dfbd76 21% 25%,transparent 26%),
-    linear-gradient(135deg,#c8ae87,#574536);
-}
-.p5{
-    background:
-    radial-gradient(circle at center,#fff0bb 0 6%,transparent 7%),
-    radial-gradient(ellipse at center,transparent 0 14%,#d3ad62 15% 18%,transparent 19%),
-    linear-gradient(135deg,#8b7458,#dac19a);
-}
-.p6{
-    background:
-    radial-gradient(circle at center 43%,#efd99d 0 9%,transparent 10%),
-    linear-gradient(145deg,#b8a080,#4c3b2f);
-}
+.product:hover .product-photo{transform:scale(1.04)}
+.p1,.p2,.p3,.p4,.p5,.p6{background:#d8c8b3}
 .badge{
     position:absolute;
-    z-index:5;
+    z-index:2;
     top:15px;
     left:15px;
     background:white;
@@ -422,18 +460,35 @@ nav a:hover:after{width:100%}
     padding:110px 20px;
     text-align:center;
     color:white;
-    background:
-    linear-gradient(rgba(40,30,22,.8),rgba(40,30,22,.8)),
-    linear-gradient(135deg,#c69d64,#453327);
+    position:relative;
+    overflow:hidden;
+    background:#453327;
 }
-.banner h2{
+.banner:before{
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:1;
+    background:linear-gradient(rgba(40,30,22,.52),rgba(40,30,22,.72));
+}
+.banner-photo{
+    position:absolute;
+    inset:0;
+    z-index:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+.banner-content{position:relative;z-index:2}
+.banner-content h2{
     font-family:var(--serif);
     font-size:80px;
     font-weight:400;
     line-height:.9;
     margin-bottom:20px;
 }
-.banner p{color:#ddd0be;font-size:12px;margin-bottom:25px}
+.banner-content p{color:#f0e8dc;font-size:12px;margin-bottom:25px}
+.banner-content .btn{position:relative}
 .light-btn{border:1px solid white;color:white}
 .light-btn:hover{background:white;color:var(--dark)}
 
@@ -654,6 +709,7 @@ footer{background:#12110f;color:white;padding-top:70px}
     .trust-grid{grid-template-columns:repeat(2,1fr)}
     .collection-grid{grid-template-columns:repeat(2,1fr)}
     .product-grid{grid-template-columns:repeat(2,1fr)}
+    .rate-grid{grid-template-columns:repeat(3,1fr)}
     .about-grid,.faq-grid{grid-template-columns:1fr}
     .services-grid{grid-template-columns:repeat(2,1fr)}
     .footer-grid{grid-template-columns:repeat(2,1fr)}
@@ -672,12 +728,13 @@ footer{background:#12110f;color:white;padding-top:70px}
     .section{padding:75px 0}
     .section-title h2{font-size:48px}
     .collection-grid,.product-grid,.services-grid{grid-template-columns:1fr}
+    .rate-grid{grid-template-columns:1fr}
     .collection-img{height:360px}
     .product-image{height:420px}
     .about-image{height:420px}
     .about-text h2,.faq-title h2{font-size:48px}
     .banner{padding:90px 20px}
-    .banner h2{font-size:57px}
+    .banner-content h2{font-size:57px}
     .review-card{width:290px;flex-basis:290px}
     .form-grid{grid-template-columns:1fr}
     .form-group.full{grid-column:auto}
@@ -689,11 +746,21 @@ footer{background:#12110f;color:white;padding-top:70px}
 @media(prefers-reduced-motion:reduce){
     html{scroll-behavior:auto}
     .review-track{animation:none}
+    .intro-screen{transition:none}
+    .intro-content{animation:none}
 }
 </style>
 </head>
 
 <body>
+
+<div class="intro-screen" id="introScreen" role="status" aria-live="polite">
+    <div class="intro-content">
+        <p class="intro-welcome">WELCOME TO</p>
+        <p class="intro-logo">LUMIÈRE</p>
+        <p class="intro-tagline">FINE JEWELLERY</p>
+    </div>
+</div>
 
 <div class="topbar">
     Visit our showroom · Personal consultations available · WhatsApp us for enquiries
@@ -711,6 +778,7 @@ footer{background:#12110f;color:white;padding-top:70px}
         <a href="#collections">Collections</a>
         <a href="#about">About</a>
         <a href="#products">Jewellery</a>
+        <a href="#gold-rates">Gold Rates</a>
         <a href="#services">Services</a>
         <a href="#reviews">Reviews</a>
         <a href="#contact">Contact</a>
@@ -740,6 +808,7 @@ footer{background:#12110f;color:white;padding-top:70px}
     </div>
 
     <div class="hero-image">
+        <img class="hero-photo" src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&amp;fit=crop&amp;w=1400&amp;q=85" alt="Elegant gold jewellery arranged for a Lumière collection" fetchpriority="high">
         <div class="hero-label">
             <span>NEW COLLECTION</span>
             <h2>ÉCLAT</h2>
@@ -785,7 +854,10 @@ footer{background:#12110f;color:white;padding-top:70px}
 
     <div class="collection-grid">
         <article class="collection-card">
-            <div class="collection-img ring-img"><span>01</span></div>
+            <div class="collection-img ring-img">
+                <img class="collection-photo" src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&amp;fit=crop&amp;w=700&amp;q=80" alt="Gold ring with a brilliant-cut stone" loading="lazy" decoding="async">
+                <span>01</span>
+            </div>
             <div class="collection-info">
                 <h3>Rings</h3>
                 <p>Classic, contemporary and statement silhouettes.</p>
@@ -794,7 +866,10 @@ footer{background:#12110f;color:white;padding-top:70px}
         </article>
 
         <article class="collection-card">
-            <div class="collection-img necklace-img"><span>02</span></div>
+            <div class="collection-img necklace-img">
+                <img class="collection-photo" src="https://images.unsplash.com/photo-1617038220319-276d3cfab638?auto=format&amp;fit=crop&amp;w=700&amp;q=80" alt="Fine gold necklace on a display stand" loading="lazy" decoding="async">
+                <span>02</span>
+            </div>
             <div class="collection-info">
                 <h3>Necklaces</h3>
                 <p>Elegant pieces designed to become heirlooms.</p>
@@ -803,7 +878,10 @@ footer{background:#12110f;color:white;padding-top:70px}
         </article>
 
         <article class="collection-card">
-            <div class="collection-img earring-img"><span>03</span></div>
+            <div class="collection-img earring-img">
+                <img class="collection-photo" src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&amp;fit=crop&amp;w=700&amp;q=80" alt="Pair of elegant gold earrings" loading="lazy" decoding="async">
+                <span>03</span>
+            </div>
             <div class="collection-info">
                 <h3>Earrings</h3>
                 <p>Delicate accents and distinctive statement pieces.</p>
@@ -812,7 +890,10 @@ footer{background:#12110f;color:white;padding-top:70px}
         </article>
 
         <article class="collection-card">
-            <div class="collection-img bracelet-img"><span>04</span></div>
+            <div class="collection-img bracelet-img">
+                <img class="collection-photo" src="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&amp;fit=crop&amp;w=700&amp;q=80" alt="Gold bracelet with a refined finish" loading="lazy" decoding="async">
+                <span>04</span>
+            </div>
             <div class="collection-info">
                 <h3>Bracelets</h3>
                 <p>Refined designs for effortless everyday luxury.</p>
@@ -827,7 +908,10 @@ footer{background:#12110f;color:white;padding-top:70px}
 <section class="section about" id="about">
 <div class="container about-grid">
     <div class="about-image">
-        <div class="about-inner">THE LUMIÈRE ATELIER</div>
+        <div class="about-inner">
+            <img src="https://images.unsplash.com/photo-1611652022419-a9419f74343d?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="Jeweller carefully crafting a fine jewellery piece" loading="lazy" decoding="async">
+            <span>THE LUMIÈRE ATELIER</span>
+        </div>
     </div>
 
     <div class="about-text">
@@ -844,6 +928,38 @@ footer{background:#12110f;color:white;padding-top:70px}
         </p>
         <a class="story-link" href="#contact">Visit the showroom →</a>
     </div>
+</div>
+</section>
+
+<!-- GOLD RATES -->
+<section class="section gold-rates" id="gold-rates">
+<div class="container">
+    <div class="section-title">
+        <p class="eyebrow">CLEAR PRICING, PERSONAL SERVICE</p>
+        <h2>Gold <em>Rates</em></h2>
+        <p>Ask us for today's per-gram showroom rate for your preferred purity.</p>
+    </div>
+    <div class="rate-grid">
+        <article class="rate-card">
+            <h3>24K Gold</h3>
+            <p class="rate-purity">99.9% PURE · 999 FINENESS</p>
+            <p class="rate-value">Today's rate on request</p>
+            <p class="rate-unit">Price quoted per gram in INR</p>
+        </article>
+        <article class="rate-card">
+            <h3>22K Gold</h3>
+            <p class="rate-purity">91.6% PURE · 916 FINENESS</p>
+            <p class="rate-value">Today's rate on request</p>
+            <p class="rate-unit">Price quoted per gram in INR</p>
+        </article>
+        <article class="rate-card">
+            <h3>18K Gold</h3>
+            <p class="rate-purity">75% PURE · 750 FINENESS</p>
+            <p class="rate-value">Today's rate on request</p>
+            <p class="rate-unit">Price quoted per gram in INR</p>
+        </article>
+    </div>
+    <p class="rate-note"><strong>Making charges vary</strong> by design, weight and workmanship. Contact us for today's gold rate and a clear, itemised estimate before you order.</p>
 </div>
 </section>
 
@@ -866,7 +982,10 @@ footer{background:#12110f;color:white;padding-top:70px}
 
     <div class="product-grid" id="productGrid">
         <article class="product" data-category="ring">
-            <div class="product-image p1"><span class="badge">FEATURED</span></div>
+            <div class="product-image p1">
+                <img class="product-photo" src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&amp;fit=crop&amp;w=800&amp;q=80" alt="Éclat solitaire gold ring" loading="lazy" decoding="async">
+                <span class="badge">FEATURED</span>
+            </div>
             <div class="product-info">
                 <span class="category">RINGS</span>
                 <h3>Éclat Solitaire</h3>
@@ -876,7 +995,10 @@ footer{background:#12110f;color:white;padding-top:70px}
         </article>
 
         <article class="product" data-category="necklace">
-            <div class="product-image p2"><span class="badge">SIGNATURE</span></div>
+            <div class="product-image p2">
+                <img class="product-photo" src="https://images.unsplash.com/photo-1617038220319-276d3cfab638?auto=format&amp;fit=crop&amp;w=800&amp;q=80" alt="Maison pendant necklace" loading="lazy" decoding="async">
+                <span class="badge">SIGNATURE</span>
+            </div>
             <div class="product-info">
                 <span class="category">NECKLACES</span>
                 <h3>Maison Pendant</h3>
@@ -886,7 +1008,10 @@ footer{background:#12110f;color:white;padding-top:70px}
         </article>
 
         <article class="product" data-category="earring">
-            <div class="product-image p3"><span class="badge">NEW</span></div>
+            <div class="product-image p3">
+                <img class="product-photo" src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&amp;fit=crop&amp;w=800&amp;q=80" alt="Perle drop earrings" loading="lazy" decoding="async">
+                <span class="badge">NEW</span>
+            </div>
             <div class="product-info">
                 <span class="category">EARRINGS</span>
                 <h3>Perle Drops</h3>
@@ -896,7 +1021,10 @@ footer{background:#12110f;color:white;padding-top:70px}
         </article>
 
         <article class="product" data-category="bracelet">
-            <div class="product-image p4"><span class="badge">CLASSIC</span></div>
+            <div class="product-image p4">
+                <img class="product-photo" src="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&amp;fit=crop&amp;w=800&amp;q=80" alt="Élan gold bracelet" loading="lazy" decoding="async">
+                <span class="badge">CLASSIC</span>
+            </div>
             <div class="product-info">
                 <span class="category">BRACELETS</span>
                 <h3>Élan Bracelet</h3>
@@ -906,7 +1034,10 @@ footer{background:#12110f;color:white;padding-top:70px}
         </article>
 
         <article class="product" data-category="ring">
-            <div class="product-image p5"><span class="badge">EDITOR'S PICK</span></div>
+            <div class="product-image p5">
+                <img class="product-photo" src="https://images.unsplash.com/photo-1589674781759-c21c37956a44?auto=format&amp;fit=crop&amp;w=800&amp;q=80" alt="Aurelia gold band ring" loading="lazy" decoding="async">
+                <span class="badge">EDITOR'S PICK</span>
+            </div>
             <div class="product-info">
                 <span class="category">RINGS</span>
                 <h3>Aurelia Band</h3>
@@ -916,7 +1047,10 @@ footer{background:#12110f;color:white;padding-top:70px}
         </article>
 
         <article class="product" data-category="necklace">
-            <div class="product-image p6"><span class="badge">TIMELESS</span></div>
+            <div class="product-image p6">
+                <img class="product-photo" src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&amp;fit=crop&amp;w=800&amp;q=80" alt="Celeste fine gold chain" loading="lazy" decoding="async">
+                <span class="badge">TIMELESS</span>
+            </div>
             <div class="product-info">
                 <span class="category">NECKLACES</span>
                 <h3>Celeste Chain</h3>
@@ -1006,9 +1140,12 @@ footer{background:#12110f;color:white;padding-top:70px}
 
 <!-- BANNER -->
 <section class="banner">
-    <h2>Made for your<br>moments.</h2>
-    <p>Come into the showroom, see the pieces up close and let us help you find something meaningful.</p>
-    <a href="#contact" class="btn light-btn">Plan Your Visit</a>
+    <img class="banner-photo" src="https://images.unsplash.com/photo-1611652022419-a9419f74343d?auto=format&amp;fit=crop&amp;w=1600&amp;q=85" alt="" loading="lazy" decoding="async">
+    <div class="banner-content">
+        <h2>Made for your<br>moments.</h2>
+        <p>Come into the showroom, see the pieces up close and let us help you find something meaningful.</p>
+        <a href="#contact" class="btn light-btn">Plan Your Visit</a>
+    </div>
 </section>
 
 <!-- REVIEWS -->
@@ -1363,6 +1500,13 @@ footer{background:#12110f;color:white;padding-top:70px}
 </a>
 
 <script>
+/* THREE-SECOND BRAND INTRO */
+const introScreen = document.getElementById("introScreen");
+window.setTimeout(() => {
+    introScreen.setAttribute("aria-hidden", "true");
+    introScreen.classList.add("is-hidden");
+}, 2450);
+
 /* MOBILE MENU */
 const menuBtn = document.getElementById("menuBtn");
 const nav = document.getElementById("nav");
@@ -1427,7 +1571,6 @@ Preferred Visit: ${preferred || "Not specified"}
 Message: ${message || "I would like more information."}
 
 Thank you.`;
-
     const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`;
     window.open(url, "_blank");
 });
